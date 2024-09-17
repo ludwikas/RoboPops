@@ -1,1 +1,1 @@
-# CORE AAAAAAAAA
+# CORE
