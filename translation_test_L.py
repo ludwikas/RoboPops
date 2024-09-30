@@ -1,6 +1,7 @@
 import socket 
 import math 
 import time
+import urx
 
 # 0. def Program():
 # 1.   extruder_clayTcp = p[0, 0, 0.2535, 0, 0, 1.5708] - sets the tool to the given point: [x, y, z, rx, ry, rz] : 
