@@ -4,6 +4,7 @@ with open(r'D:\TU Delft\_CORE\RoboPops-1\L_URscript.txt', "r") as file:
 def urscript_to_python(urscript_code):  #Input: a list of strings - each string being a line from the URscript
     python_lines = []
     python_lines.append("import urx")
+    python_lines.append("import socket")
     python_lines.append("robot = urx.Robot('IP')")
 
     for line in urscript_code:
