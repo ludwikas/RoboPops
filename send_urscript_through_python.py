@@ -1,5 +1,6 @@
 import socket
 
+# function to send a .txt file (urscript as it is) straight to the robot controller
 def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
     
 
@@ -19,6 +20,7 @@ def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
     finally:
         s.close()
         print("Connection closed.")
+
 
 file_path = "URscript.txt"
 robot_ip = "192.168.40.128"
