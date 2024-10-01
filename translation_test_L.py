@@ -3,21 +3,22 @@ import math
 import time
 import urx
 
+
 # 0. def Program():
-# 1.   extruder_clayTcp = p[0, 0, 0.2535, 0, 0, 1.5708] - sets the tool to the given point: [x, y, z, rx, ry, rz] : 
-# 2.   extruder_clayWeight = 0 - Sets the payload weight to 0
-# 3.   extruder_clayCog = [0, 0, 0.2535] - Sets the center of gravity (COG) to [0, 0, 0.2535]
-# 4.   Speed000 = 0.007
+# 1.   extruder_clayTcp = p[0, 0, 0.2535, 0, 0, 1.5708]
+# 2.   extruder_clayWeight = 0
+# 3.   extruder_clayCog = [0, 0, 0.2535]
+# 4.   Speed000 = 0.1
 # 5.   DefaultZone = 0
 # 6.   set_tcp(extruder_clayTcp)
-#      set_payload(extruder_clayWeight, extruder_clayCog)
-# 7.   movej([1.3224, -1.6028, 2.0734, -2.0415, -1.5708, -0.2484], a=3.1416, v=0.022, r=DefaultZone)
-# 8.   movel(p[0, -0.36801, 0.00052, 2.22144, 2.22144, 0], a=1, v=Speed000, r=DefaultZone)
+#   set_payload(extruder_clayWeight, extruder_clayCog)
+# 7.   movej([1.4265, -0.8756, 1.0797, -1.7749, -1.5708, -0.1443], a=3.1416, v=0.3142, r=DefaultZone)
+# 8.   movel(p[0, -0.31366, 0.00052, 2.22144, 2.22144, 0], a=1, v=Speed000, r=DefaultZone)
 # 9. end
 
-
-robot_ip = "192.168.0.10"  # Replace with your robot's actual IP
+robot_ip = "192.168.177.128"  # Replace with your robot's actual IP
 robot = urx.Robot(robot_ip)
+home_position = [1.4265, -0.8756, 1.0797, -1.7749, -1.5708, -0.1443]  # Example joint angles for a UR robot
 
 try:
     # Step 1: Set the Tool Center Point (TCP); robot.set_tcp(extruder_clayTcp) sets the TCP similar to set_tcp in URScript.
@@ -34,16 +35,24 @@ try:
     # Step 3: Move to initial joint position using movej; 
     # moves the robot to the initial joint position. 
     # The acc and vel parameters correspond to acceleration and velocity, just like in URScript.
-    initial_joint_position = [1.3224, -1.6028, 2.0734, -2.0415, -1.5708, -0.2484]
-    robot.movej(initial_joint_position, acc=3.1416, vel=0.022, wait=True)
+    initial_joint_position = [1.4265, -0.8756, 1.0797, -1.7749, -1.5708, -0.1443]
+    robot.movej(initial_joint_position, acc=5, vel=5, wait=True)
     print("Moved to initial joint position:", initial_joint_position)
 
     # Step 4: Draw the line using movel to the target Cartesian position
     # Note: In urx, p[] values are given in meters and radians, similar to URScript
-    target_position = [0, -0.36801, 0.00052, 2.22144, 2.22144, 0]
-    robot.movel(target_position, acc=1, vel=0.007, wait=True)
+    target_position = [0, -0.31366, 0.00052, 2.22144, 2.22144, 0]
+    robot.movel(target_position, acc=5, vel=5, wait=True)
     print("Moved linearly to target position:", target_position)
 
+# Return to the home position after completing the task
+    print("Returning to home position...")
+    robot.movej(home_position, acc=5, vel=5, wait=True)
+    print("Robot returned to home position")
+
 finally:
+    # Close the connection properly
     robot.close()
-    print("Connection closed")
+    print("Connection to the robot closed")
+
+#this is working - how do I reset the robot without Grasshopper though? 

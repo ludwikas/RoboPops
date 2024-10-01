@@ -23,6 +23,6 @@ def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
 
 
 file_path = "URscript.txt"
-robot_ip = "192.168.40.128"
+robot_ip = "192.168.177.128"
 
 send_urscript(file_path, robot_ip)
