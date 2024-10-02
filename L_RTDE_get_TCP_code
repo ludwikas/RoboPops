@@ -2,13 +2,13 @@ import rtde_receive
 import time
 
 # UR5 robot's IP address
-robot_ip = "192.168.1.102"  # Replace with your robot's actual IP address
+robot_ip = "192.168.177.128"  # Replace with your robot's actual IP address
 
 # Create an RTDE receive interface to receive data from the robot
 rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
 
-try:
-    while True:
+try: #try: block is used so that we can safely handle a manual interruption (using Ctrl+C), which stops the program without causing issues
+    while True: #to continuously receive the TCP position data from the robot in real-time.
         # Get the current TCP position (X, Y, Z, RX, RY, RZ)
         tcp_pose = rtde_r.getActualTCPPose()
 
