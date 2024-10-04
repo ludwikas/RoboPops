@@ -1,6 +1,7 @@
 import socket
 import rtde_receive
-import time 
+import time
+import re
 
 # Function to send a .txt file (URscript as it is) to the robot controller
 def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
@@ -60,17 +61,35 @@ def monitor_tcp_pose(robot_ip: str, expected_moves: int, polling_interval: float
         print(f"Error during TCP pose monitoring: {e}")
     finally:
         return tcp_poses
+
+# Function to count movement commands in the URScript
+def count_movement_commands(file_path: str):
+    with open(file_path, "r") as file:
+        script_content = file.read()
     
+    # Regular expression to match motion commands like movej, movel, movep, etc.
+    move_commands = re.findall(r'\bmove[jlp]\b', script_content, re.IGNORECASE)
+    
+    # Return the number of movement commands found
+    return len(move_commands)
 
 def main():
     file_path = "URscript.txt"
     robot_ip = "192.168.40.128"
 
+    # Count the number of movement commands in the URscript
+    expected_moves = count_movement_commands(file_path)
+    print(f"Number of movement commands detected in URscript: {expected_moves}")
+
+    if expected_moves == 0:
+        print("No movement commands detected. Exiting.")
+        return
+
     # Step 1: Send URscript to the robot
     send_urscript(file_path, robot_ip)
 
-    # Step 2: Monitor the TCP poses for 4 movements, increase polling interval to 50 ms
-    tcp_poses = monitor_tcp_pose(robot_ip, expected_moves=4, polling_interval=0.05)
+    # Step 2: Monitor the TCP poses dynamically based on detected move commands
+    tcp_poses = monitor_tcp_pose(robot_ip, expected_moves=expected_moves, polling_interval=0.05)
 
     # Output the collected TCP poses
     print("\nCollected TCP Poses:")

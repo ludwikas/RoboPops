@@ -1,0 +1,93 @@
+import socket
+import rtde_control
+import rtde_receive
+import threading 
+
+# function to send a .txt file (urscript as it is) straight to the robot controller
+def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
+    
+
+    with open(file_path, "r") as file:
+        urscript = file.read()
+    
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((robot_ip, port))
+
+
+    try:
+        print("Sending URscript to the robot controller")
+        s.sendall(urscript.encode("utf-8"))
+
+        response = s.recv(1024).decode("utf-8")
+        print("Response fromm robot:", response)
+    finally:
+        s.close()
+        print("Connection closed.")
+
+
+file_path = "URscript.txt"
+robot_ip = "192.168.177.128"
+
+send_urscript(file_path, robot_ip)
+
+# Now set up RTDE to receive TCP position during the motion
+rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
+
+try:
+    while True:
+        # Get the current TCP position (X, Y, Z, RX, RY, RZ)
+        tcp_pose = rtde_r.getActualTCPPose()
+
+        # Print TCP position
+        print("TCP Position: X: {:.3f}, Y: {:.3f}, Z: {:.3f}, RX: {:.3f}, RY: {:.3f}, RZ: {:.3f}".format(
+            tcp_pose[0], tcp_pose[1], tcp_pose[2], tcp_pose[3], tcp_pose[4], tcp_pose[5]
+        ))
+
+        # Add a delay to control the frequency of data retrieval
+        time.sleep(0.1)
+
+except KeyboardInterrupt:
+    print("Program interrupted and stopped.")
+
+
+# Function to monitor TCP position in real-time
+def monitor_tcp(robot_ip: str):
+    # Create an RTDEReceiveInterface object to get real-time data
+    rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
+    
+    try:
+        while True:
+            # Get the current TCP position (X, Y, Z, RX, RY, RZ)
+            tcp_pose = rtde_r.getActualTCPPose()
+
+            # Print TCP position
+            print("TCP Position: X: {:.3f}, Y: {:.3f}, Z: {:.3f}, RX: {:.3f}, RY: {:.3f}, RZ: {:.3f}".format(
+                tcp_pose[0], tcp_pose[1], tcp_pose[2], tcp_pose[3], tcp_pose[4], tcp_pose[5]
+            ))
+
+            # Sleep for a short while to control the data fetch rate
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("Monitoring stopped.")
+
+
+# Main function to send URScript and monitor TCP
+def main():
+    file_path = "URscript.txt"  # Path to the URScript file
+    robot_ip = "192.168.177.128"  # IP address of your UR5 robot
+    
+    # Create a thread for TCP monitoring
+    tcp_monitor_thread = threading.Thread(target=monitor_tcp, args=(robot_ip,))
+    
+    # Start the TCP monitoring thread
+    tcp_monitor_thread.start()
+
+    # Send the URScript to the robot
+    send_urscript(file_path, robot_ip)
+    
+    # Join the thread (wait for it to finish)
+    tcp_monitor_thread.join()
+
+
+if __name__ == "__main__":
+    main()
