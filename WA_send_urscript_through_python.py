@@ -16,13 +16,13 @@ def send_urscript(file_path: str, robot_ip: str, port: int = 30002):
         s.sendall(urscript.encode("utf-8"))
 
         response = s.recv(1024).decode("utf-8")
-        print("Respnse fromm robot:", response)
+        print("Respose fromm robot:", response)
     finally:
         s.close()
         print("Connection closed.")
 
 
 file_path = "URscript.txt"
-robot_ip = "192.168.1.198"
+robot_ip = "192.168.40.128"
 
 send_urscript(file_path, robot_ip)
