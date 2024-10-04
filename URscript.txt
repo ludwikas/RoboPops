@@ -1,16 +1,14 @@
 def Program():
-  Clay_extruderTcp = p[0, 0.14, 0.058, -1.5708, -0, 0]
-  Clay_extruderWeight = 0
-  Clay_extruderCog = [0, 0.14, 0.058]
+  extruder_clayTcp = p[0, 0, 0.2535, 0, 0, 1.5708]
+  extruder_clayWeight = 0
+  extruder_clayCog = [0, 0, 0.2535]
   Speed000 = 0.1
   Zone000 = 0
-  set_tcp(Clay_extruderTcp)
-  set_payload(Clay_extruderWeight, Clay_extruderCog)
-  movej([-0.9175, -1.3848, -1.9445, -2.9539, -0.9175, -3.1416], a=3.1416, v=0.3142, r=Zone000)
-  movel(p[0.08, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[-0.04, -0.37414, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[-0.04, -0.51271, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[0.08, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[0.1, -0.45, 0.2, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  set_tcp(extruder_clayTcp)
+  set_payload(extruder_clayWeight, extruder_clayCog)
+  movej([-1.148, -1.5564, -2.0564, -1.0996, 1.5708, 0.4228], a=3.1416, v=0.3142, r=Zone000)
+  movej([-1.3834, -1.363, -2.2239, -1.1255, 1.5708, 0.1874], a=3.1416, v=0.1699, r=Zone000)
+  movej([-1.4351, -1.7061, -1.8957, -1.1106, 1.5708, 0.1357], a=3.1416, v=0.2476, r=Zone000)
+  movej([-1.148, -1.5564, -2.0564, -1.0996, 1.5708, 0.4228], a=3.1416, v=0.2072, r=Zone000)
 end
 
