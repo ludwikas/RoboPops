@@ -1,14 +1,16 @@
 def Program():
-  DefaultGHToolTcp = p[0, 0, 0.102, 0, -1.5708, 0]
-  DefaultGHToolWeight = 0
-  DefaultGHToolCog = [0, 0, 0.102]
-  Speed000 = 0.037
+  Clay_extruderTcp = p[0, 0.14, 0.058, -1.5708, -0, 0]
+  Clay_extruderWeight = 0
+  Clay_extruderCog = [0, 0.14, 0.058]
+  Speed000 = 0.1
   Zone000 = 0
-  set_tcp(DefaultGHToolTcp)
-  set_payload(DefaultGHToolWeight, DefaultGHToolCog)
-  movej([-1.5595, -2.192, -2.0008, -2.0904, -3.1303, -1.5708], a=3.1416, v=0.1162, r=Zone000)
-  movel(p[-0.04, -0.37414, 0.00052, 0, 0, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[-0.04, -0.51271, 0.00052, 0, 0, 0], a=1, v=Speed000, r=Zone000)
-  movel(p[0.08, -0.44342, 0.00052, 0, 0, 0], a=1, v=Speed000, r=Zone000)
+  set_tcp(Clay_extruderTcp)
+  set_payload(Clay_extruderWeight, Clay_extruderCog)
+  movej([-0.9175, -1.3848, -1.9445, -2.9539, -0.9175, -3.1416], a=3.1416, v=0.3142, r=Zone000)
+  movel(p[0.08, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.04, -0.37414, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.04, -0.51271, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[0.08, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[0.1, -0.45, 0.2, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
 end
 

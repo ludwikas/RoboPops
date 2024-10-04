@@ -1,4 +1,4 @@
-with open(r'D:\TU Delft\_CORE\RoboPops-1\L_URscript.txt', "r") as file:
+with open(r'D:\TU Delft\_CORE\RoboPops\URscript.txt', "r") as file:
     urscript_code = file.readlines()  #Reads lines into a list
 
 def urscript_to_python(urscript_code):  #Input: a list of strings - each string being a line from the URscript
