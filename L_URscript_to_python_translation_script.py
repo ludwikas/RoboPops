@@ -43,7 +43,7 @@ python_lines = urscript_to_python(urscript_code)
 for line in python_lines:
     print(line)
 
-newfile = r"D:\TU Delft\_CORE\RoboPops-1\L_python_translation.py" #Add an r before the string to treat it as a raw string, which tells Python not to interpret backslashes as escape sequences
+newfile = r"D:\TU Delft\_CORE\RoboPops\L_python_translation.py" #Add an r before the string to treat it as a raw string, which tells Python not to interpret backslashes as escape sequences
 with open(newfile, "w") as file:    
     for i in python_lines:
         file.write(i +"\n")

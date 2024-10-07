@@ -75,7 +75,7 @@ def count_movement_commands(file_path: str):
 
 def main():
     file_path = "URscript.txt"
-    robot_ip = "192.168.40.128"
+    robot_ip = "192.168.177.128"
 
     # Count the number of movement commands in the URscript
     expected_moves = count_movement_commands(file_path)

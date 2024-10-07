@@ -1,9 +1,24 @@
 import urx
-import socket
-robot_id = '192.168.177.128'
-robot = urx.Robot(robot_id)
-# Start of the program
-robot.movej([[1.4265, -0.599, 1.2775, -2.2493, -1.5708, -0.1443], acc==3.1416, vel==0.3142, radius==DefaultZone])
-robot.movel([p[0, -0.31366, 0.00052, 2.22144, 2.22144, 0], acc==1, vel==DefaultSpeed, radius==DefaultZone])
-# End of the program
-robot.close()
+import time
+
+# Connect to the robot
+robot = urx.Robot("192.168.177.128")  # Replace with the robot's actual IP address
+
+try:
+    # Move the arm to a specific joint position (radians)
+    joint_positions = [-1.0, -1.5, 1.5, -1.0, 1.5, 0.0]
+    robot.movej(joint_positions, acc=5, vel=5)
+    time.sleep(2)  # Wait for 2 seconds
+
+    # Move the arm in Cartesian space (meters and radians)
+    tcp_position = [0.3, 0.1, 0.2, 0, 3.14, 0]  # x, y, z, rx, ry, rz
+    robot.movel(tcp_position, acc=5, vel=5)
+    time.sleep(2)  # Wait for 2 seconds
+
+    # Return to home position (all zeros for joints)
+    home_position = [0, 0, 0, 0, 0, 0]
+    robot.movej(home_position, acc=5, vel=5)
+
+finally:
+    # Close the connection to the robot
+    robot.close()

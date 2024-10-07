@@ -2,7 +2,7 @@ import rtde_receive
 import time
 
 # UR5 robot's IP address
-robot_ip = "192.168.177.128"  # Replace with your robot's actual IP address
+robot_ip = "192.168.177.128"
 
 # Create an RTDE receive interface to receive data from the robot
 rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
