@@ -1,0 +1,36 @@
+def Program():
+  Clay_extruderTcp = p[0, 0.15985, 0.058, -1.5708, -0, 0]
+  Clay_extruderWeight = 4.36
+  Clay_extruderCog = [0, 0.15985, 0.058]
+  Speed000 = 0.2
+  Zone000 = 0
+  set_tcp(Clay_extruderTcp)
+  set_payload(Clay_extruderWeight, Clay_extruderCog)
+  socket_open("145.94.142.88" , 30004)
+  socket_send_string("Move start 1")
+  movej([-0.5019, -1.0911, -2.6218, -2.5703, -0.5019, -3.1416], a=3.1416, v=0.1571, r=Zone000)
+  socket_send_string("Move end 1")
+
+  socket_send_string("Move start 2")
+  movel(p[-0.025, -0.40012, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  socket_send_string("Move end 2")
+
+  socket_send_string("Move start 3")
+  movel(p[-0.025, -0.48673, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  socket_send_string("Move end 3")
+
+  socket_send_string("Move start 4")
+  movel(p[0.05, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  socket_send_string("Move end 4")
+
+  socket_send_string("Move start 5")
+  movel(p[-0.025, -0.40012, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  socket_send_string("Move end 5")
+
+  socket_send_string("Move start 6")
+  movel(p[0.065, -0.384, 0.15, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  socket_send_string("Move end 6")
+
+  socket_close()
+end
+
