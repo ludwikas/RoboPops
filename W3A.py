@@ -4,7 +4,7 @@ import W3A_A_Calculate_speed
 
 file_path_unf = "URscript.txt"                          ## Need to have this in the directory in order for the script to run
 output_file_path_1f = "Formatted_URscript.txt"          ## Name of the 1st format (socketopen() and socketstring())
-ip_address = "145.94.131.37"                            ###### Use "ipconfig" in your terminal to colelect your personal IPV4 (changes every time you close your pc)
+ip_address = "145.94.157.109"                           ###### Use "ipconfig" in your terminal to colelect your personal IPV4 (changes every time you close your pc)
 message_prefix = "Move"                                 ## Important for formatting 
 file_path_1f = "Formatted_URscript.txt"                 ## File name
 robot_ip = "192.168.40.128"                             ## Robot ip
