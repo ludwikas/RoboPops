@@ -115,12 +115,12 @@ def detect_speed_pattern(speed_data, tolerance=0.02, min_constant_points=5):
     constant_end = []      # Poses of the end of constant speed segments
 
     #Find the first significant speed drop (to omit the first movement the robot does when approaching the table)
-    #first_drop_position = None 
-    #for i in range (1, len(speed_data)):
-        #speed_change = speed_data[i] - speed_data[i-1]
-        #if speed_change < -tolerance:
-            #first_drop_position = i
-            #break
+    first_drop_position = None 
+    for i in range (1, len(speed_data)):
+        speed_change = speed_data[i] - speed_data[i-1]
+        if speed_change < -tolerance:
+            first_drop_position = i
+            break
 
     # Variable to track constant speed segments
     in_constant_segment = False
@@ -128,7 +128,7 @@ def detect_speed_pattern(speed_data, tolerance=0.02, min_constant_points=5):
     constant_segment_start = None  # Track start index of constant segment
 
     # Loop through the speed data
-    for i in range(1, len(speed_data)):
+    for i in range(first_drop_position, len(speed_data)):
         speed_change = speed_data[i] - speed_data[i - 1]
         
         # Check for speed increase
@@ -169,7 +169,7 @@ def detect_speed_pattern(speed_data, tolerance=0.02, min_constant_points=5):
             if constant_segment_count >= min_constant_points:
                 constant_end.append(i)
 
-    return increases, decreases, constant_start, constant_end
+    return increases, decreases, constant_start, constant_end, first_drop_position
 
 # Get main TCPs with corresponding indices in ALL
 def get_main_with_indices(main_tcp_poses, main_indices, tcp_poses):
@@ -299,7 +299,7 @@ def main():
     main_indices, not_found_indices = find_main_in_all(tcp_poses, main_tcp_poses)
 
     #3:Find speed pattern:
-    increases, decreases, constant_start, constant_end = detect_speed_pattern(speed_data, tolerance=0.0015, min_constant_points=5)
+    increases, decreases, constant_start, constant_end, first_drop_position = detect_speed_pattern(speed_data, tolerance=0.0015, min_constant_points=5)
 
     #Collect main TCP poses with their indices from the list of all TCPs
     main_with_indices = get_main_with_indices(main_tcp_poses, main_indices, tcp_poses)
