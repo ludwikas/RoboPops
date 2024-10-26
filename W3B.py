@@ -2,7 +2,7 @@ import W3B_L_Detect_Speed_Pattern_and_Find_TCPs
 import W3B_E_get_joints
 import logging
 
-robot_ip = "192.168.40.128"                                 ##### Update with your robot ip for simulator
+robot_ip = "192.168.177.128"                                 ##### Update with your robot ip for simulator
 #File paths
 file_path_intTCP = "Interval_TCP.txt"
 file_path_lspeed = "Linear_speeds.txt"
