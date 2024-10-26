@@ -1,6 +1,8 @@
 import random
 import os
 import numpy as np
+from scipy.stats import mode
+from collections import Counter
 
 #File paths:
 file_path_intTCP = "Interval_TCP.txt"
@@ -96,8 +98,51 @@ def find_main_in_all(tcp_poses, main_tcp_poses):
 
     return main_indices, not_found_indices
 
+
+# #Detect precision of the data set
+def detect_default_precision(speed_data, min_precision=3):
+
+    # Find the first significant decimal position for each value in the dataset
+    precisions = []
+    for speed in speed_data:
+        str_speed = f"{speed:.10f}"  # Ensure enough precision in the string representation
+        decimal_part = str_speed.split('.')[1]
+        significant_position = next((i + 1 for i, digit in enumerate(decimal_part) if digit != '0'), len(decimal_part))
+        precisions.append(significant_position)
+    
+    # Use median precision for better robustness; if too low, default to min_precision
+    median_precision = int(np.median(precisions))
+
+    return max(median_precision, min_precision)
+
+#Calculate tolerance:
+def calculate_tolerance(speed_data):
+
+    # Automatically detect the default precision
+    default_precision = detect_default_precision(speed_data)
+    
+    # Sort to get the top N largest absolute values
+    top_n = 5
+    largest_speeds = sorted(abs(speed) for speed in speed_data)[-top_n:]
+    
+    # Calculate the position of the first non-zero decimal for each of the top values
+    precisions = []
+    for speed in largest_speeds:
+        str_speed = f"{speed:.10f}"  # Ensure enough precision
+        decimal_part = str_speed.split('.')[1]
+        significant_position = next((i + 1 for i, digit in enumerate(decimal_part) if digit != '0'), len(decimal_part))
+        precisions.append(significant_position)
+    
+    # Use the median position or fall back to the auto-detected default
+    median_position = int(np.median(precisions))
+    tolerance_position = max(median_position, default_precision)
+    
+    # Set tolerance based on the determined precision level
+    tolerance = 10 ** -tolerance_position
+    return tolerance
+
 #Search for constant speed segments:
-def detect_speed_pattern(speed_data, tolerance = 0.005, min_constant_points=5):
+def detect_speed_pattern(speed_data, min_constant_points=5):
 
     """
     Detect speed increases, decreases, and constant speed segments.
@@ -108,7 +153,7 @@ def detect_speed_pattern(speed_data, tolerance = 0.005, min_constant_points=5):
     min_constant_points (int): Minimum number of points to consider a constant speed segment.
 
     """
-    
+    tolerance = calculate_tolerance(speed_data)
     increases = []         # Poses where speed increases
     decreases = []         # Poses where speed decreases
     constant_start = []    # Poses of the start of constant speed segments
@@ -202,7 +247,6 @@ def combine_main_and_enriched(main_with_indices, tcp_poses, constant_start, cons
 
     return combined_tcp_poses
 
-
 #Results output:
 def output_results(increases, decreases, constant_start, constant_end, tcp_poses, main_tcp_poses, main_indices, not_found_indices, combined_tcp_poses, speed_data, main_with_indices):
 
@@ -286,7 +330,6 @@ def save_combined_tcp_to_file(combined_tcp_poses, speed_data):
         for idx, (original_index, _) in enumerate(combined_tcp_poses, start=1):
             speed = speed_data[original_index - 1] if original_index - 1 < len(speed_data) else 'N/A'
             file.write(f"{idx}: {speed}\n")
-
 def main():
 
     #1:Load data from files:
@@ -312,6 +355,10 @@ def main():
 
     #Save 4 .txt files:
     save_combined_tcp_to_file(combined_tcp_poses, speed_data)
+
+    #Output the tolerance
+    tolerance = calculate_tolerance(speed_data)
+    print(f"Calculated tolerance: {tolerance}")
 
 if __name__ == "__main__":
     main()
