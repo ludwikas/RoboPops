@@ -84,18 +84,18 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
                     break
 
                 # Start monitoring after receiving "Move start n" markers
-                if "Move start" in data:
+                if "Move end" in data:
                     # Extract the move index from the marker
                     move_counter += 1
                     logging.info(f"Received: {data}. Move count: {move_counter}")
 
                     # Start monitoring at "Move start 3"
-                    if not monitoring_started and "Move start 3" in data:
-                        logging.info("Move start 3 marker received. Starting monitoring.")
+                    if not monitoring_started and "Move end 2" in data:
+                        logging.info("Move end 2 marker received. Starting monitoring.")
                         monitoring_started = True
 
                     # Stop monitoring one move before the last move if total_moves is known
-                    if total_moves and monitoring_started and move_counter == total_moves:
+                    if total_moves and monitoring_started and move_counter == total_moves-1:
                         logging.info("One move before the last move reached. Stopping monitoring.")
                         monitoring = False
                         continue

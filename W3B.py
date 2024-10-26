@@ -27,8 +27,6 @@ main_with_indices = W3B_L_Detect_Speed_Pattern_and_Find_TCPs.get_main_with_indic
 combined_tcp_poses = W3B_L_Detect_Speed_Pattern_and_Find_TCPs.combine_main_and_enriched(main_with_indices, tcp_poses, constant_start, constant_end)
 W3B_L_Detect_Speed_Pattern_and_Find_TCPs.output_results(increases, decreases, constant_start, constant_end, tcp_poses, main_tcp_poses, main_indices, not_found_indices, combined_tcp_poses, speed_data, main_with_indices)
 W3B_L_Detect_Speed_Pattern_and_Find_TCPs.save_combined_tcp_to_file(combined_tcp_poses, speed_data)
-tolerance = W3B_L_Detect_Speed_Pattern_and_Find_TCPs.calculate_tolerance(speed_data)
-print(tolerance)
 W3B_E_get_joints.read_tcp_poses_from_file(file_path_TCP_seq)
 tcp_poses = W3B_E_get_joints.read_tcp_poses_from_file(file_path_TCP_seq)
 if tcp_poses:
