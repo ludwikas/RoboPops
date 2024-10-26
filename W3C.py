@@ -11,8 +11,7 @@ w_target = 5.5                                                        # mm
 h_target = 5                                                          # mm
 Ns = 1035                                                             # unit
 
-old_min = 0
-old_max = 60000
+old_min = 0.0001
 new_min = 0.5
 new_max = 0
 
@@ -24,6 +23,7 @@ file_path_FinalFormat = "FinalFormat_URscript.txt"
 
 v_new = W3C_A_Calculate_StepDelay_Interpolate.read_v_values(file_path_speed_seq)
 step_delay_values = W3C_A_Calculate_StepDelay_Interpolate.calculate_step_delay(Ns, V_p, w_target, h_target, v_new)
+old_max = W3C_A_Calculate_StepDelay_Interpolate.sort_max_delay(step_delay_values)
 voltage_values = W3C_A_Calculate_StepDelay_Interpolate.map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max)
 W3C_A_Format_dynamic_voltage_values.format_urscript_voltages(file_path_urscript_newl, output_file_path_FinalFormat, voltage_values)
 W3A_A_Send_Collect_Main_and_Intervals.send_urscript(file_path_FinalFormat, robot_ip, 30002)
