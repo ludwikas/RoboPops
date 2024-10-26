@@ -1,0 +1,19 @@
+def Program():
+  Clay_extruderTcp = p[0, 0.15985, 0.058, -1.5708, -0, 0]
+  Clay_extruderWeight = 4.36
+  Clay_extruderCog = [0, 0.15985, 0.058]
+  Speed000 = 0.12
+  Zone000 = 0
+  set_tcp(Clay_extruderTcp)
+  set_payload(Clay_extruderWeight, Clay_extruderCog)
+  movej([-0.5019, -1.0911, -2.6218, -2.5703, -0.5019, -3.1416], a=3.1416, v=0.1571, r=Zone000)
+  movel(p[-0.025, -0.40012, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.025, -0.48673, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[0.05, -0.44342, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.025, -0.40012, 0.00352, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.025, -0.48673, 0.00352, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[0.05, -0.44342, 0.00352, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[-0.025, -0.40012, 0.00352, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+  movel(p[0.065, -0.3, 0.00052, 0, 3.14159, 0], a=1, v=Speed000, r=Zone000)
+end
+
