@@ -96,21 +96,8 @@ def find_main_in_all(tcp_poses, main_tcp_poses):
 
     return main_indices, not_found_indices
 
-def calculate_tolerance (speed_data):
-    if len(speed_data) < 2: 
-        return 0.0
-    
-    #Calculate the absolute difference between each pair of consecutive speed values in (speed_data)
-    abs_diffs = [abs(speed_data[i] - speed_data[i - 1]) for i in range(1, len(speed_data))]
-
-    #Calculate MAD (Median Absolute Deviation)
-    mad = np.median(abs_diffs)
-    return mad 
-
 #Search for constant speed segments:
-def detect_speed_pattern(speed_data, min_constant_points=5):
-
-    tolerance = calculate_tolerance(speed_data)
+def detect_speed_pattern(speed_data, tolerance = 0.005, min_constant_points=5):
 
     """
     Detect speed increases, decreases, and constant speed segments.
@@ -215,6 +202,7 @@ def combine_main_and_enriched(main_with_indices, tcp_poses, constant_start, cons
 
     return combined_tcp_poses
 
+
 #Results output:
 def output_results(increases, decreases, constant_start, constant_end, tcp_poses, main_tcp_poses, main_indices, not_found_indices, combined_tcp_poses, speed_data, main_with_indices):
 
@@ -275,16 +263,26 @@ def output_results(increases, decreases, constant_start, constant_end, tcp_poses
         speed = speed_data[index - 1] if index - 1 < len(speed_data) else 'N/A'
         print(f"{index}: Pose: {pose}\nSpeed: {speed}\n")
 
-#Save all the needed files:                                                                   #Saving 2 txt files
+#Save all the needed files:                                                                    #Saving 4 txt files
 #a) TCPs with original indexes:
 def save_combined_tcp_to_file(combined_tcp_poses, speed_data):
+    with open("TCPs_original_idx.txt", 'w') as file:
+        for idx, pose in combined_tcp_poses:
+            file.write(f"{idx}: {pose}\n")
+
     #b) TCPs with sequential indexes:
-    with open(output_file_path_TCP_seq, 'w') as file:
+    with open("TCPs_sequential_idx.txt", 'w') as file:
         for seq_index, (original_index, pose) in enumerate(combined_tcp_poses, start=1):
             file.write(f"{seq_index}: {pose}\n")
 
+     #c) speeds and original indices
+    with open("Speeds_original_idx.txt", 'w') as file:
+        for idx, _ in combined_tcp_poses:
+            speed = speed_data[idx - 1] if idx - 1 < len(speed_data) else 'N/A'
+            file.write(f"{idx}: {speed}\n")
+
      #d) speeds with sequential indices
-    with open(output_file_path_speed_seq, 'w') as file:
+    with open("Speeds_sequential_idx.txt", 'w') as file:
         for idx, (original_index, _) in enumerate(combined_tcp_poses, start=1):
             speed = speed_data[original_index - 1] if original_index - 1 < len(speed_data) else 'N/A'
             file.write(f"{idx}: {speed}\n")
@@ -314,10 +312,6 @@ def main():
 
     #Save 4 .txt files:
     save_combined_tcp_to_file(combined_tcp_poses, speed_data)
-
-    #Output the tolerance
-    tolerance = calculate_tolerance(speed_data)
-    print(tolerance)
 
 if __name__ == "__main__":
     main()
