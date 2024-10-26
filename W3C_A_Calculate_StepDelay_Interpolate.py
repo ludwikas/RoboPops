@@ -1,5 +1,4 @@
 import re
-import numpy
 
 # Function to read velocity values from file
 def read_v_values(file_path_v_values):
@@ -33,20 +32,23 @@ def calculate_step_delay(Ns, V_p, w_target, h_target, v_new):
             print(f"Calculated step delay for v = {v} m/s: {n} μs")
         return step_delays
 
-#Logarithmic interpolation
+# Function to map step delay to voltage
 def map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max):
     voltage_values = []
     for value in step_delay_values:
         if value is None:
             voltage_values.append(None)  # If step delay is None, append None
             continue
-        if value <= 0:
-            value = 1  # Avoid log of zero or negative numbers
-        scaled_value = np.log(value)  # Apply logarithm to compress the range
-        old_range_log = np.log(old_max) - np.log(old_min if old_min > 0 else 1)
-        voltage = new_min + ((scaled_value - np.log(old_min)) / old_range_log) * (new_max - new_min)
+        voltage = new_min + ((value - old_min) / (old_max - old_min)) * (new_max - new_min)  # Linear interpolation
         voltage_values.append(voltage)
     return voltage_values
+
+# Function to write voltage values to file
+#def write_voltage_values(voltage_values, output_file_path):
+    with open(output_file_path, "w") as file:
+        for value in voltage_values:
+            file.write(f"{value}\n")
+
 
 def main():
 
@@ -73,6 +75,10 @@ def main():
 
     voltage_values = map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max)
     print("Voltage values:", voltage_values)
+
+    # Write voltage values to file
+    output_file_path = "Voltage_values.txt"
+    #write_voltage_values(voltage_values, output_file_path)
 
 if __name__ == "__main__":
     main()
