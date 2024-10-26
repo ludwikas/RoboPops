@@ -44,7 +44,6 @@ def extract_total_moves(file_path_1f: str) -> int:
         return 0
     
 # Function to monitor TCP pose and speed based on both markers and intervals
-# Function to monitor TCP pose and speed based on both markers and intervals
 def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 30004, interval: float = 0.1, total_moves: int = None):
     rtde_r = rtde_receive.RTDEReceiveInterface(robot_ip)
 
@@ -94,14 +93,14 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
                         logging.info("Move end 2 marker received. Starting monitoring.")
                         monitoring_started = True
 
-                    # Stop monitoring one move before the last move if total_moves is known
-                    if total_moves and monitoring_started and move_counter == total_moves-1:
-                        logging.info("One move before the last move reached. Stopping monitoring.")
+                    # Stop monitoring right after receiving "Move start (n-1)" if total_moves is known
+                    if total_moves and monitoring_started and move_counter == total_moves - 1:
+                        logging.info("Move start (n-1) marker reached. Stopping monitoring.")
                         monitoring = False
                         continue
 
                 # If "Move end" marker is received during monitoring
-                if monitoring_started and "Move end" in data:
+                if monitoring_started and "Move start" in data:
                     logging.info(f"Received: {data}. Movement ended.")
                     tcp_pose = rtde_r.getActualTCPPose()
                     marker_tcp_data.append(tcp_pose)
@@ -132,6 +131,7 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
             conn.close()
         s.close()
         return tcp_data, marker_tcp_data
+
 
 
 
