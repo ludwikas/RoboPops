@@ -12,7 +12,7 @@ notification_port = 30004                               ## Rceive port
 output_file_path_intTCP = "Interval_TCP.txt"            ## File name
 output_file_path_intspeeds="Interval_speeds.txt"        ## File name
 output_file_path_mTCP="TCP_main.txt"                    ## File name
-interval = 0.01                                         ###### NOT more than 0.05
+interval = 0.01                                         ####@## NOT more than 0.05
 file_path_speed = "Interval_speeds.txt"                 ## File name
 output_file_path_lspeed = "Linear_speeds.txt"           ## File name
 
