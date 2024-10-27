@@ -309,27 +309,42 @@ def output_results(increases, decreases, constant_start, constant_end, tcp_poses
 
 #Save all the needed files:                                                                    #Saving 4 txt files
 #a) TCPs with original indexes:
-def save_combined_tcp_to_file(combined_tcp_poses, speed_data):
-    with open("TCPs_original_idx.txt", 'w') as file:
-        for idx, pose in combined_tcp_poses:
-            file.write(f"{idx}: {pose}\n")
+def save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices):
+    # with open("TCPs_original_idx.txt", 'w') as file:
+    #     for idx, pose in combined_tcp_poses:
+    #         file.write(f"{idx}: {pose}\n")
 
     #b) TCPs with sequential indexes:
     with open("TCPs_sequential_idx.txt", 'w') as file:
         for seq_index, (original_index, pose) in enumerate(combined_tcp_poses, start=1):
             file.write(f"{seq_index}: {pose}\n")
 
-     #c) speeds and original indices
-    with open("Speeds_original_idx.txt", 'w') as file:
-        for idx, _ in combined_tcp_poses:
-            speed = speed_data[idx - 1] if idx - 1 < len(speed_data) else 'N/A'
-            file.write(f"{idx}: {speed}\n")
+    #  #c) speeds and original indices
+    # with open("Speeds_original_idx.txt", 'w') as file:S
+    #     for idx, _ in combined_tcp_poses:
+    #         speed = speed_data[idx - 1] if idx - 1 < len(speed_data) else 'N/A'
+    #         file.write(f"{idx}: {speed}\n")
 
      #d) speeds with sequential indices
     with open("Speeds_sequential_idx.txt", 'w') as file:
         for idx, (original_index, _) in enumerate(combined_tcp_poses, start=1):
             speed = speed_data[original_index - 1] if original_index - 1 < len(speed_data) else 'N/A'
             file.write(f"{idx}: {speed}\n")
+
+    #e)New file for TCPs with main/enriched marker
+    with open("TCPs_with_markers.txt", 'w') as file:
+        main_indices_set = {index for index, _ in main_with_indices}  # Set of main indices for quick lookup
+
+        for original_index, pose in combined_tcp_poses:
+            if original_index in main_indices_set:
+                # This TCP is a main pose
+                main_list_index = next((idx for idx, main in enumerate(main_with_indices, start=1) if main[0] == original_index), None)
+                file.write(f"Marker pose {main_list_index}: {pose}\n")
+            else:
+                # This TCP is an enriched pose
+                file.write(f"Interval {original_index}: {pose}\n")
+
+
 def main():
 
     #1:Load data from files:
@@ -354,7 +369,7 @@ def main():
     output_results(increases, decreases, constant_start, constant_end, tcp_poses, main_tcp_poses, main_indices, not_found_indices, combined_tcp_poses, speed_data, main_with_indices)
 
     #Save 4 .txt files:
-    save_combined_tcp_to_file(combined_tcp_poses, speed_data)
+    save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices)
 
     #Output the tolerance
     tolerance = calculate_tolerance(speed_data)
