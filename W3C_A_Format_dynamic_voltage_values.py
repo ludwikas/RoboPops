@@ -64,6 +64,9 @@ def main():
     w_target = 5.5                                                      # mm
     h_target = 5                                                        # mm
     Ns = 1035                                                           # unit
+    
+######################  NEW: UPDATE FILE TO SPEEDS_SEQUENTIAL_IDX_JOINTS
+    
     file_path_speed_seq = "Speeds_sequential_idx.txt"
     v_new = W3C_A_Calculate_StepDelay_Interpolate.read_v_values(file_path_speed_seq)
     step_delay_values = W3C_A_Calculate_StepDelay_Interpolate.calculate_step_delay(Ns, V_p, w_target, h_target, v_new)

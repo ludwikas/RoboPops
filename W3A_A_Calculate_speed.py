@@ -28,8 +28,11 @@ def write_speeds_in_file(linear_speeds, output_file_path_lspeed: str):
         for speed in linear_speeds:  # Iterate over each individual speed
             file.write(f"{speed}\n")  # Write each speed on a new line
 
+
+
+
 ### really helpfull for callin the modules properly later(blocks unwanted authorization)
-if __name__ == "__main__":
+def main():
     file_path_speed = "interval_speeds.txt"
     output_file_path_lspeed = "Linear_speeds.txt"
     
@@ -41,7 +44,8 @@ if __name__ == "__main__":
     
     # Write the calculated linear speeds to the output file
     write_speeds_in_file(v_linear, output_file_path_lspeed)
-
+if __name__ == "__main__":
+    main()
 
 #speed1 = np.array([0.02393271659621, 0.04554902918299161, -0.09238083703797023])
 #v_linear = np.linalg.norm(speed1)

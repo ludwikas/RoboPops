@@ -1,15 +1,18 @@
 import re
 import numpy as np
 
-# Function to read velocity values from file
 def read_v_values(file_path_v_values):
     v_values = []
     with open(file_path_v_values, "r") as file:
         for line in file:
-            match = re.search(r":\s*([-+]?\d*\.?\d+)", line)
-            if match:
-                v_values.append(float(match.group(1)))
+            line = line.strip()  # Remove any leading/trailing whitespace
+            try:
+                v_values.append(float(line))  # Convert each line directly to float
+            except ValueError:
+                # Handle lines that aren't valid numbers, if any
+                continue
     return v_values
+
 
 # Function to calculate volumetric value
 def calculate_Vp(ρ, m):
@@ -82,7 +85,9 @@ def main():
     h_target = 5                    # mm
     Ns = 1035                       # unit
 
-    file_path_v_values = "Speeds_sequential_idx.txt"
+######################  NEW: UPDATE FILE TO SPEEDS_SEQUENTIAL_IDX_JOINTS
+
+    file_path_v_values = "Linear_speeds_2.txt"
     v_new = read_v_values(file_path_v_values)
 
     # Calculate step delays
