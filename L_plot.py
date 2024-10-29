@@ -13,6 +13,7 @@ def extract_coordinates(line):
 
 # Read and process the file
 filename = 'TCPs_sequential_idx.txt'  # Update with your file path if needed
+
 marker_poses = []
 
 with open(filename, 'r') as file:
@@ -26,20 +27,28 @@ with open(filename, 'r') as file:
 x_coords = [pose[0] for pose in marker_poses]
 y_coords = [pose[1] for pose in marker_poses]
 
-# Creating a 2D plot
-fig, ax = plt.subplots()
+# Creating a 2D plot with a square aspect ratio
+fig, ax = plt.subplots(figsize=(6, 6))  # Set figure size to square
 
 # Plotting the points and adding lines between each successive point
-ax.scatter(x_coords, y_coords, c='b', marker='o')
+scatter = ax.scatter(x_coords, y_coords, c='b', marker='o', label='TCP points')  # Add label for the legend
 ax.plot(x_coords, y_coords, color='black', linestyle='-', linewidth=1)
 
-# Adding labels to each point
+# Adding labels to each point with smaller font size
 for i, (x, y) in enumerate(marker_poses, start=1):
-    ax.text(x, y, f'{i}', color='red')
+    ax.text(x, y, f'{i}', color='red', fontsize=8)  # Adjust fontsize here
 
-# Setting labels and title
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_title('Plot of the points in 2D (X, Y)')
+# Adding the legend
+ax.legend()
 
+# set labels and title
+ax.set_xlabel('X coordinates')
+ax.set_ylabel('Y coordinates')
+ax.set_title('TCP point coordinates (X, Y)')
+
+# display plot
 plt.show()
+
+
+
+
