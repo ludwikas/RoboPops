@@ -43,6 +43,14 @@ def sort_max_delay(step_delays):
         return max(valid_delays)
     else:
         return 1  # Default value if no valid delays are found
+    
+# Function to calculate the minimum step delay
+def sort_min_delay(step_delays):
+    valid_delays = [delay for delay in step_delays if delay is not None]
+    if valid_delays:
+        return min(valid_delays)
+    else:
+        return 1  # Default value if no valid delays are found
 
 # Function to map step delay to voltage using logarithmic scaling
 def map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max):
@@ -97,8 +105,8 @@ def main():
     old_max = sort_max_delay(step_delay_values)
 
     # Map step delays to voltage values
-    old_min = 0.0001
-    new_min = 0.5
+    old_min = sort_min_delay(step_delay_values)
+    new_min = 0.475
     new_max = 0
 
     voltage_values = map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max)
@@ -106,7 +114,8 @@ def main():
 
     # Linearly interpolate voltage values
     interpolated_voltage_values = linear_interpolate_voltage(voltage_values, 0, 0.5)
-    print("Voltage values after linear interpolation:", interpolated_voltage_values)
-
+    #print("Voltage values after linear interpolation:", interpolated_voltage_values)
+    print(old_max)
+    print(old_min)
 if __name__ == "__main__":
     main()

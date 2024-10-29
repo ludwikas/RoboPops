@@ -75,7 +75,7 @@ def monitor_joint_speeds(robot_ip: str, notification_port: int = 30004, total_mo
 
         while True:
             try:
-                data = conn.recv(1024).decode("utf-8").strip()
+                data = conn.recv(4096).decode("utf-8").strip()
                 if not data:
                     logging.info("Socket closed by robot. Stopping data collection.")
                     break
@@ -86,13 +86,16 @@ def monitor_joint_speeds(robot_ip: str, notification_port: int = 30004, total_mo
                     move_counter += 1
                     logging.info(f"Received: {data}. Move count: {move_counter}")
 
-                    # Collect joint speeds at the end of each move
-                    joint_speeds = rtde_r.getActualQd()
-                    joint_speeds_data.append((joint_speeds, f"Move end {move_counter}"))
-                    logging.info(f"Joint Speeds collected at move end {move_counter}: {joint_speeds}")
+                    # Start monitoring only after move 3
+                    if move_counter > 2:
+                        # Collect joint speeds at the end of each move
+                        joint_speeds = rtde_r.getActualQd()
+                        joint_speeds_data.append((joint_speeds, f"Move end {move_counter}"))
+                        logging.info(f"Joint Speeds collected at move end {move_counter}: {joint_speeds}")
 
-                    if total_moves and move_counter == total_moves:
-                        logging.info("All moves completed. Stopping monitoring.")
+                    # Stop monitoring before the last move
+                    if total_moves and move_counter == total_moves - 1:
+                        logging.info("Stopping monitoring before the last move.")
                         break
 
             except socket.error as e:
@@ -111,6 +114,7 @@ def monitor_joint_speeds(robot_ip: str, notification_port: int = 30004, total_mo
             conn.close()
         s.close()
         return joint_speeds_data
+
 
 # Function to write joint speeds to a .txt file
 def write_joint_speeds_to_file(joint_speeds_data, output_file_path="Joint_speeds.txt"):

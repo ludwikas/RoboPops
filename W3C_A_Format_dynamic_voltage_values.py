@@ -21,6 +21,7 @@ def format_urscript_voltages(file_path_urscript_newl, output_file_path_FinalForm
         # Locate the 'movej' command and set the flag
         if "movej" in line:
             found_movej = True
+            insertions.append((i + 1, "  set_analog_out(0, 0.5)\n"))                             ### Control where the test extrusion happens and the value of it   
             continue
 
         # Start inserting analog output before 'movel' after we find 'movej'
@@ -28,7 +29,7 @@ def format_urscript_voltages(file_path_urscript_newl, output_file_path_FinalForm
             if voltage_index < len(voltage_values):
                 voltage_value = voltage_values[voltage_index]
                 # Collect the insertion information
-                insertions.append((i+1, f"  set_analog_out(0, {voltage_value})\n"))               #i+1 will start inserting after the first movel this can always be changed
+                insertions.append((i+1, f"  set_analog_out(0, {voltage_value})\n"))              ###i+1 will start inserting after the first movel this can always be changed
                 voltage_index += 1
 
     # Apply the collected insertions in reverse order to maintain correct indexing
@@ -48,7 +49,7 @@ def format_urscript_voltages(file_path_urscript_newl, output_file_path_FinalForm
 def main():
     # Input, output file paths, and voltage mapping
     # Setup for the translation function
-    old_min = 0
+    old_min = 1100
     old_max = 60000
     new_min = 0.5
     new_max = 0
@@ -67,8 +68,8 @@ def main():
     
 ######################  NEW: UPDATE FILE TO SPEEDS_SEQUENTIAL_IDX_JOINTS
     
-    file_path_speed_seq = "Speeds_sequential_idx.txt"
-    v_new = W3C_A_Calculate_StepDelay_Interpolate.read_v_values(file_path_speed_seq)
+    output_file_path_lspeed = "Linear_speeds_2.txt"
+    v_new = W3C_A_Calculate_StepDelay_Interpolate.read_v_values(output_file_path_lspeed)
     step_delay_values = W3C_A_Calculate_StepDelay_Interpolate.calculate_step_delay(Ns, V_p, w_target, h_target, v_new)
     voltage_values = W3C_A_Calculate_StepDelay_Interpolate.map_step_delay_to_voltage(step_delay_values, old_min, old_max, new_min, new_max)
     # Format the URScript file with the voltages

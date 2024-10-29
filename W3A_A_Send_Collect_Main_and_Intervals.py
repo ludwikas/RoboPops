@@ -83,7 +83,7 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
                     logging.info("Socket closed by robot. Stopping data collection.")
                     break
 
-                # Start monitoring after receiving "Move end" markers
+                # Start monitoring after receiving "Move start n" markers
                 if "Move end" in data:
                     # Extract the move index from the marker
                     move_counter += 1
@@ -94,9 +94,9 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
                         logging.info("Move end 2 marker received. Starting monitoring.")
                         monitoring_started = True
 
-                    # Stop monitoring before reaching the last move
-                    if total_moves and monitoring_started and move_counter == total_moves - 1:
-                        logging.info("Reached one move before the last move. Stopping monitoring.")
+                    # Stop monitoring after Move start 6
+                    if total_moves and monitoring_started and move_counter == total_moves:
+                        logging.info("Move start 6 marker reached. Stopping monitoring.")
                         monitoring = False
                         continue
 
@@ -109,9 +109,9 @@ def monitor_tcp_pose_and_speed_combined(robot_ip: str, notification_port: int = 
                     tcp_data.append((tcp_pose, tcp_speed, "Marker"))  # Include speed for the marker pose
                     logging.info(f"TCP Pose collected immediately after Move end (for marker list): {tcp_pose}")
 
-                    # Stop monitoring before the last move
-                    if total_moves and move_counter == total_moves - 1:
-                        logging.info("Reached one move before the last move. Stopping monitoring.")
+                    # Check if the current marker is "Move start 6" and stop monitoring
+                    if "Move start 6" in data:
+                        logging.info("Move start 6 marker received. Stopping monitoring.")
                         monitoring = False
                     continue
 
