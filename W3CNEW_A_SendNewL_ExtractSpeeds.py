@@ -117,12 +117,12 @@ def monitor_joint_speeds(robot_ip: str, notification_port: int = 30004, total_mo
 
 
 # Function to write joint speeds to a .txt file
-def write_joint_speeds_to_file(joint_speeds_data, output_file_path="Joint_speeds.txt"):
+def write_joint_speeds_to_file(joint_speeds_data, output_file_path_jspeeds):
     try:
-        with open(output_file_path, "w") as file:
+        with open(output_file_path_jspeeds, "w") as file:
             for i, (joint_speeds, source) in enumerate(joint_speeds_data):
                 file.write(f"Data {i + 1}: Source: {source}, Joint Speeds: {joint_speeds}\n")
-        logging.info(f"Joint speeds successfully written to {output_file_path}")
+        logging.info(f"Joint speeds successfully written to {output_file_path_jspeeds}")
     except Exception as e:
         logging.error(f"Error writing joint speeds to file: {e}")
 
@@ -162,6 +162,7 @@ def main():
     try:
         file_path_unf = "URscript_newmovel.txt"
         output_file_path_1f = "WFormatted_URscript.txt"
+        output_file_path_jspeeds = "Joint_speeds.txt"
         ip_address = "145.94.133.95"
         W3A_A_Format_TCP.format_urscript(file_path_unf, output_file_path_1f, ip_address, message_prefix="Move")
         file_path = "WFormatted_URscript.txt"
@@ -178,7 +179,7 @@ def main():
         joint_speeds_data = monitor_joint_speeds(robot_ip, notification_port=notification_port, total_moves=total_moves)
 
         # Step 4: Write the collected joint speeds to a .txt file
-        write_joint_speeds_to_file(joint_speeds_data)
+        write_joint_speeds_to_file(joint_speeds_data, output_file_path_jspeeds)
 
     except Exception as e:
         logging.error(f"Error in main function: {e}")

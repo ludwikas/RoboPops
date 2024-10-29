@@ -309,7 +309,7 @@ def output_results(increases, decreases, constant_start, constant_end, tcp_poses
 
 #Save all the needed files:                                                                    #Saving 4 txt files
 #a) TCPs with original indexes:
-def save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices):
+def save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices, output_file_path_speed_seq, output_file_path_TCP_seq):
     # with open("TCPs_original_idx.txt", 'w') as file:
     #     for idx, pose in combined_tcp_poses:
     #         file.write(f"{idx}: {pose}\n")
@@ -326,14 +326,14 @@ def save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices)
     #         file.write(f"{idx}: {speed}\n")
 
      #d) speeds with sequential indices
-    with open("Speeds_sequential_idx.txt", 'w') as file:
+    with open(output_file_path_speed_seq, 'w') as file:
         for idx, (original_index, _) in enumerate(combined_tcp_poses, start=1):
             speed = speed_data[original_index - 1] if original_index - 1 < len(speed_data) else 'N/A'
             file.write(f"{idx}: {speed}\n")
 
     #e)New file for TCPs with main/enriched marker
 #e) New file for TCPs with main/enriched marker and sequential index
-    with open("TCPs_with_markers.txt", 'w') as file:
+    with open(output_file_path_TCP_seq, 'w') as file:
         main_indices_set = {index for index, _ in main_with_indices}  # Set of main indices for quick lookup
 
         for seq_index, (original_index, pose) in enumerate(combined_tcp_poses, start=1):
@@ -352,6 +352,8 @@ def main():
     tcp_poses = read_tcp_intervals(file_path_intTCP)
     speed_data = read_lspeed_data(file_path_lspeed)
     main_tcp_poses = read_TCP_main(file_path_TCP_main)
+    output_file_path_speed_seq = "Speeds_sequential_idx.txt"
+    output_file_path_TCP_seq = "TCPs_with_markers.txt"
 
     #2:Find indices of MAIN poses in ALL poses
     #outputs main indices from the list of all TCPs and main indices that were not found in the list of all TCPs
@@ -370,7 +372,7 @@ def main():
     output_results(increases, decreases, constant_start, constant_end, tcp_poses, main_tcp_poses, main_indices, not_found_indices, combined_tcp_poses, speed_data, main_with_indices)
 
     #Save 4 .txt files:
-    save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices)
+    save_combined_tcp_to_file(combined_tcp_poses, speed_data, main_with_indices, output_file_path_speed_seq, output_file_path_TCP_seq)
 
     #Output the tolerance
     tolerance = calculate_tolerance(speed_data)

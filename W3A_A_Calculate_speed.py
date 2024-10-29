@@ -46,7 +46,3 @@ def main():
     write_speeds_in_file(v_linear, output_file_path_lspeed)
 if __name__ == "__main__":
     main()
-
-#speed1 = np.array([0.02393271659621, 0.04554902918299161, -0.09238083703797023])
-#v_linear = np.linalg.norm(speed1)
-#print(f"Linear speed 1: {round(v_linear, 3)} m/s")
