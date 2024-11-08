@@ -44,6 +44,7 @@ This process is not executed in real-time; instead, it involves several calculat
   - stepper motor
   - extruder 
   - power supply
+- **Hardware Setup**
 
 ![Alt text](physical_setup.png)
 
