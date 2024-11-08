@@ -5,7 +5,7 @@
 This is an important step so the algorithm can run. There are functions that use an IP connection with a robot as an argument,
 so it's improtant to set up a virtual environment that build this conenction with the robot. 
   
-![Alt text](images/Flowchart_CORE_Final.drawio.png)
+![Alt text](Flowchart_CORE_Final.drawio.png)
 
 # RoboFlow: Synchronized Extrusion for Robotic Speed Variations in 3D Printing
 
