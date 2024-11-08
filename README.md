@@ -44,7 +44,7 @@ This process is not executed in real-time; instead, it involves several calculat
   - power supply
 - **Hardware Setup:**
 
-![Alt text](physical_setup.png)
+![Alt text](Hardware_setup.png)
 
 ---
 
@@ -52,7 +52,7 @@ This process is not executed in real-time; instead, it involves several calculat
 
 ## Flowchart 
 
-![Alt text](Flowchart_CORE_Final.drawio.png)
+![Alt text](Workflow_Flowchart.png)
 
 ### Preparation
 
