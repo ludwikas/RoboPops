@@ -44,7 +44,7 @@ This process is not executed in real-time; instead, it involves several calculat
   - stepper motor
   - extruder 
   - power supply
-- **Hardware Setup**
+- **Hardware Setup:**
 
 ![Alt text](physical_setup.png)
 
@@ -250,6 +250,11 @@ Throughout the workflow, the following files are generated:
 
 ## Usage Instructions
 
+All modules are named based on the sequence that they are called. 
+**W0** modules are there only for documentation purposes and to offer some tools (ploting scripts etc) that can help with troubleshooting and setup. 
+**W1** through **W7** are the modules that are needed for the main to run smoothly. 
+**W8** is the arduino sketch that should be uploaded before the main runs.
+
 1. **Setup:**
    - Ensure all software prerequisites are installed and properly configured.
    - Connect the Universal Robots arm and Arduino controller according to hardware setup requirements.
@@ -261,12 +266,13 @@ Throughout the workflow, the following files are generated:
    This makes extraction of any URscript that you create seamless. 
 
 3. **Execute V4_Main.py:**
-   - This file is responsible for calling every function with a proper structure
+   - This file is responsible for calling every function through the modules in the directory with a proper structure
    - Argument definition is clear and can be changed according to user preferences
    - After updating arguments that need it (notes inside the main), the code should be able to run smoothly 
 
 4. **Run Arduino script**
-   - Upload arduino script 
+   - Get a second laptop as per hardware setup flowchart
+   - Upload arduino script
 ---
 
 ## Contributing
