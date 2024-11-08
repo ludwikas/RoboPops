@@ -250,10 +250,10 @@ Throughout the workflow, the following files are generated:
 
 ## Usage Instructions
 
-All modules are named based on the sequence that they are called. 
-**W0** modules are there only for documentation purposes and to offer some tools (ploting scripts etc) that can help with troubleshooting and setup. 
-**W1** through **W7** are the modules that are needed for the main to run smoothly. 
-**W8** is the arduino sketch that should be uploaded before the main runs.
+- All modules are named based on the sequence that they are called. 
+- **W0** modules are there only for documentation purposes and to offer some tools (ploting scripts etc) that can help with troubleshooting and setup. 
+- **W1** through **W7** are the modules that are needed for the main to run smoothly. 
+- **W8** is the arduino sketch that should be uploaded before the main runs.
 
 1. **Setup:**
    - Ensure all software prerequisites are installed and properly configured.
@@ -304,4 +304,3 @@ Contributions to **RoboFlow** are welcome. To contribute:
 - **Robots Plugin:** For enabling robotic simulations within Grasshopper.
 - **Universal Robots:** For their versatile robotic arms and open controller interface.
 - **Arduino:** For offering an accessible platform for hardware control and integration.
-- **Community Contributors:** For their valuable input and enhancements to this project.
