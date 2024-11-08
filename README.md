@@ -1,12 +1,5 @@
 # RoboPops
 
-1) Install VMware or some type of simulation tool that can run the Universal Robots Polyscope 
-
-This is an important step so the algorithm can run. There are functions that use an IP connection with a robot as an argument,
-so it's improtant to set up a virtual environment that build this conenction with the robot. 
-  
-![Alt text](Flowchart_CORE_Final.drawio.png)
-
 # RoboFlow: Synchronized Extrusion for Robotic Speed Variations in 3D Printing
 
 ## Introduction
@@ -21,6 +14,7 @@ This process is not executed in real-time; instead, it involves several calculat
 
 - [Prerequisites](#prerequisites)
 - [Workflow Overview](#workflow-overview)
+  - [Flowchart](#flowchart)
   - [Preparation](#preparation)
   - [Phase 1: Initial Data Formatting and Simulation](#phase-1-initial-data-formatting-and-simulation)
   - [Phase 2: Data Refinement and Joint Data Collection](#phase-2-data-refinement-and-joint-data-collection)
@@ -54,6 +48,10 @@ This process is not executed in real-time; instead, it involves several calculat
 ---
 
 ## Workflow Overview
+
+## Flowchart 
+
+![Alt text](Flowchart_CORE_Final.drawio.png)
 
 ### Preparation
 
