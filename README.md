@@ -248,7 +248,7 @@ Throughout the workflow, the following files are generated:
 
 ## Usage Instructions
 
-    All modules are named based on the sequence that they are called. 
+   All modules are named based on the sequence that they are called. 
 - **W0** modules are there only for documentation purposes and to offer some tools (ploting scripts etc) that can help with troubleshooting and setup. 
 - **W1** through **W7** are the modules that are needed for the main to run smoothly. 
 - **W8** is the arduino sketch that should be uploaded before the main runs.
