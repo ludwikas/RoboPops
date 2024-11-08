@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**RoboFlow** is an algorithm designed to synchronize extrusion rates with the speed variations of a robotic arm during 3D printing. The core objective is to monitor changes and deviations in robotic speeds through multiple simulations and calculate appropriate voltage values representing these changes. These voltage values are then sent through the robot controller to an Arduino, which interprets them to control an extruder or motor-auger system accordingly.
+**RoboFlow** is an algorithm designed to synchronize extrusion rates with the speed variations of a robotic arm during 3D printing. The core objective is to monitor changes and deviations in robotic speeds through multiple simulations and calculate appropriate voltage values (explanatory material about the math and the logic behind that can be found on the portfolio) representing these changes. These voltage values are then sent through the robot controller to an Arduino, which interprets them to control an extruder or motor-auger system accordingly.
 
 This process is not executed in real-time; instead, it involves several calculations performed through running simulations, collecting data, and processing that data. By the end of these calculations, we obtain predefined values that are used for the actual printing operation.
 
