@@ -1,4 +1,4 @@
-# RoboAndreas
+# RoboPops
 
 1) Install VMware or some type of simulation tool that can run the Universal Robots Polyscope 
 
